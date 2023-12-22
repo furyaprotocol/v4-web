@@ -1,6 +1,6 @@
 {
   "name": "furya-chain-web",
-  "private": true,
+  "access": "public",
   "version": "1.0.0",
   "type": "module",
   "license": "AGPL-3.0",
