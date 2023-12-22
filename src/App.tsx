@@ -14,7 +14,7 @@ import {
   useShouldShowFooter,
   useAnalytics,
 } from '@/hooks';
-import { DydxProvider } from '@/hooks/useDydxClient';
+import { FuryaProvider } from '@/hooks/useFuryaClient';
 import { AccountsProvider } from '@/hooks/useAccounts';
 import { DialogAreaProvider, useDialogArea } from '@/hooks/useDialogArea';
 import { LocaleProvider } from '@/hooks/useLocaleSeparators';
@@ -125,7 +125,7 @@ const providers = [
   wrapProvider(WagmiConfig, { config }),
   wrapProvider(LocaleProvider),
   wrapProvider(RestrictionProvider),
-  wrapProvider(DydxProvider),
+  wrapProvider(FuryaProvider),
   wrapProvider(AccountsProvider),
   wrapProvider(SubaccountProvider),
   wrapProvider(LocalNotificationsProvider),

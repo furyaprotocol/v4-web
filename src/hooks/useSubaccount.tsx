@@ -18,7 +18,7 @@ import type {
 import { AMOUNT_RESERVED_FOR_GAS_USDC } from '@/constants/account';
 import { AnalyticsEvent } from '@/constants/analytics';
 import { QUANTUM_MULTIPLIER } from '@/constants/numbers';
-import { DydxAddress } from '@/constants/wallets';
+import { FuryaAddress } from '@/constants/wallets';
 
 import { setSubaccount, setHistoricalPnl, removeUncommittedOrderClientId } from '@/state/account';
 import { getBalances } from '@/state/accountSelectors';
@@ -30,7 +30,7 @@ import { log } from '@/lib/telemetry';
 
 import { useAccounts } from './useAccounts';
 import { useTokenConfigs } from './useTokenConfigs';
-import { useDydxClient } from './useDydxClient';
+import { useFuryaClient } from './useFuryaClient';
 import { hashFromTx } from '@/lib/hashfromTx';
 
 type SubaccountContextType = ReturnType<typeof useSubaccountContext>;
@@ -38,29 +38,29 @@ const SubaccountContext = createContext<SubaccountContextType>({} as SubaccountC
 SubaccountContext.displayName = 'Subaccount';
 
 export const SubaccountProvider = ({ ...props }) => {
-  const { localDydxWallet } = useAccounts();
+  const { localFuryaWallet } = useAccounts();
 
   return (
-    <SubaccountContext.Provider value={useSubaccountContext({ localDydxWallet })} {...props} />
+    <SubaccountContext.Provider value={useSubaccountContext({ localFuryaWallet })} {...props} />
   );
 };
 
 export const useSubaccount = () => useContext(SubaccountContext);
 
-export const useSubaccountContext = ({ localDydxWallet }: { localDydxWallet?: LocalWallet }) => {
+export const useSubaccountContext = ({ localFuryaWallet }: { localFuryaWallet?: LocalWallet }) => {
   const dispatch = useDispatch();
   const { usdcDenom, usdcDecimals } = useTokenConfigs();
-  const { compositeClient, faucetClient } = useDydxClient();
+  const { compositeClient, faucetClient } = useFuryaClient();
 
   const { getFaucetFunds } = useMemo(
     () => ({
       getFaucetFunds: async ({
-        dydxAddress,
+        furyaAddress,
         subaccountNumber,
       }: {
-        dydxAddress: DydxAddress;
+        furyaAddress: FuryaAddress;
         subaccountNumber: number;
-      }) => await faucetClient?.fill(dydxAddress, subaccountNumber, 100),
+      }) => await faucetClient?.fill(furyaAddress, subaccountNumber, 100),
     }),
     [faucetClient]
   );
@@ -169,7 +169,7 @@ export const useSubaccountContext = ({ localDydxWallet }: { localDydxWallet?: Lo
                 resolve([msg]);
               }),
             false,
-            compositeClient?.validatorClient?.post.defaultDydxGasPrice,
+            compositeClient?.validatorClient?.post.defaultFuryaGasPrice,
             undefined,
             Method.BroadcastTxCommit
           );
@@ -222,30 +222,30 @@ export const useSubaccountContext = ({ localDydxWallet }: { localDydxWallet?: Lo
   }, [subaccountNumber]);
 
   const subaccountClient = useMemo(
-    () => (localDydxWallet ? new SubaccountClient(localDydxWallet, subaccountNumber) : undefined),
-    [localDydxWallet, subaccountNumber]
+    () => (localFuryaWallet ? new SubaccountClient(localFuryaWallet, subaccountNumber) : undefined),
+    [localFuryaWallet, subaccountNumber]
   );
 
-  const dydxAddress = localDydxWallet?.address as DydxAddress;
+  const furyaAddress = localFuryaWallet?.address as FuryaAddress;
 
   useEffect(() => {
     dispatch(setSubaccount(undefined));
     dispatch(setHistoricalPnl([] as unknown as SubAccountHistoricalPNLs));
-  }, [dydxAddress]);
+  }, [furyaAddress]);
 
   // ------ Deposit/Withdraw Methods ------ //
   const depositFunds = useCallback(
     async (balance: AccountBalance) => {
-      if (!localDydxWallet) return;
+      if (!localFuryaWallet) return;
 
       const amount = parseFloat(balance.amount) - AMOUNT_RESERVED_FOR_GAS_USDC;
 
       if (amount > 0) {
-        const subaccountClient = new SubaccountClient(localDydxWallet, 0);
+        const subaccountClient = new SubaccountClient(localFuryaWallet, 0);
         await depositToSubaccount({ amount, subaccountClient });
       }
     },
-    [localDydxWallet, depositToSubaccount]
+    [localFuryaWallet, depositToSubaccount]
   );
 
   const balances = useSelector(getBalances, shallowEqual);
@@ -323,15 +323,15 @@ export const useSubaccountContext = ({ localDydxWallet }: { localDydxWallet?: Lo
 
   // ------ Faucet Methods ------ //
   const requestFaucetFunds = useCallback(async () => {
-    if (!dydxAddress) return;
+    if (!furyaAddress) return;
 
     try {
-      await getFaucetFunds({ dydxAddress, subaccountNumber });
+      await getFaucetFunds({ furyaAddress, subaccountNumber });
     } catch (error) {
       log('useSubaccount/getFaucetFunds', error);
       throw error;
     }
-  }, [dydxAddress, getFaucetFunds, subaccountNumber]);
+  }, [furyaAddress, getFaucetFunds, subaccountNumber]);
 
   // ------ Trading Methods ------ //
   const placeOrder = useCallback(

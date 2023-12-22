@@ -26,7 +26,7 @@ import { getSelectedNetwork } from '@/state/appSelectors';
 import { MustBigNumber } from '@/lib/numbers';
 
 const TOKEN_MIGRATION_LEARN_MORE_LINK =
-  'https://www.dydx.foundation/blog/update-on-exploring-the-future-of-dydx';
+  'https://www.furya.foundation/blog/update-on-exploring-the-future-of-furya';
 
 export const MigratePanel = () => {
   const { isNotTablet } = useBreakpoints();
@@ -84,7 +84,7 @@ export const MigratePanel = () => {
           <span>
             {stringGetter({
               key: STRING_KEYS.FROM_TO,
-              params: { FROM: <b>Ethereum</b>, TO: <b>dYdX Chain</b> },
+              params: { FROM: <b>Ethereum</b>, TO: <b>Furya Chain</b> },
             })}
           </span>
         </Styled.MobileMigrateHeader>
@@ -100,7 +100,7 @@ export const MigratePanel = () => {
                   label: (
                     <Styled.InlineRow>
                       {stringGetter({ key: STRING_KEYS.AVAILABLE_TO_MIGRATE })}
-                      <Tag>DYDX</Tag>
+                      <Tag>FURYA</Tag>
                     </Styled.InlineRow>
                   ),
                   value: <Output type={OutputType.Asset} value={tokenBalance} />,

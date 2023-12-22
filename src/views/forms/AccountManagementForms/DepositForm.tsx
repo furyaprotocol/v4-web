@@ -253,7 +253,7 @@ export const DepositForm = ({ onDeposit, onError }: DepositFormProps) => {
         if (txHash) {
           addTransferNotification({
             txHash: txHash,
-            toChainId: !isCctp ? ENVIRONMENT_CONFIG_MAP[selectedNetwork].dydxChainId : getNobleChainId(),
+            toChainId: !isCctp ? ENVIRONMENT_CONFIG_MAP[selectedNetwork].furyaChainId : getNobleChainId(),
             fromChainId: chainIdStr || undefined,
             toAmount: summary?.usdcSize || undefined,
             triggeredAt: Date.now(),

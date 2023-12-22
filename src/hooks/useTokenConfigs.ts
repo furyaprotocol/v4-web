@@ -1,17 +1,17 @@
 import { ENVIRONMENT_CONFIG_MAP } from '@/constants/networks';
-import { DydxChainAsset } from '@/constants/wallets';
+import { FuryaChainAsset } from '@/constants/wallets';
 
 import { useSelectedNetwork } from '@/hooks';
 
 export const useTokenConfigs = (): {
   tokensConfigs: {
-    [DydxChainAsset.USDC]: {
+    [FuryaChainAsset.USDC]: {
       denom: string;
       name: string;
       decimals: number;
       gasDenom?: string;
     },
-    [DydxChainAsset.CHAINTOKEN]: {
+    [FuryaChainAsset.CHAINTOKEN]: {
       denom: string;
       name: string;
       decimals: number;
@@ -30,11 +30,11 @@ export const useTokenConfigs = (): {
 
   return { 
     tokensConfigs,
-    usdcDenom: tokensConfigs[DydxChainAsset.USDC].denom, 
-    usdcDecimals: tokensConfigs[DydxChainAsset.USDC].decimals, 
-    usdcLabel: tokensConfigs[DydxChainAsset.USDC].name,
-    chainTokenDenom: tokensConfigs[DydxChainAsset.CHAINTOKEN].denom,
-    chainTokenDecimals: tokensConfigs[DydxChainAsset.CHAINTOKEN].decimals, 
-    chainTokenLabel: tokensConfigs[DydxChainAsset.CHAINTOKEN].name,
+    usdcDenom: tokensConfigs[FuryaChainAsset.USDC].denom, 
+    usdcDecimals: tokensConfigs[FuryaChainAsset.USDC].decimals, 
+    usdcLabel: tokensConfigs[FuryaChainAsset.USDC].name,
+    chainTokenDenom: tokensConfigs[FuryaChainAsset.CHAINTOKEN].denom,
+    chainTokenDecimals: tokensConfigs[FuryaChainAsset.CHAINTOKEN].decimals, 
+    chainTokenLabel: tokensConfigs[FuryaChainAsset.CHAINTOKEN].name,
   };
 };

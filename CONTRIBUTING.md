@@ -18,10 +18,10 @@ Pull requests are the best way to propose changes to the codebase (we use [Githu
 4. Issue that pull request!
 
 ## Any contributions you make will be under the same License
-When you submit code changes, your submissions are understood to be under the same [License](https://github.com/dydxprotocol/v4-web/blob/master/LICENSE) that covers the project.
+When you submit code changes, your submissions are understood to be under the same [License](https://github.com/furyaprotocol/v4-web/blob/master/LICENSE) that covers the project.
 
-## Report bugs using Github's [issues](https://github.com/dydxprotocol/v4-web/issues)
-Report a bug by [opening a new issue](https://github.com/dydxprotocol/v4-web/issues/new).
+## Report bugs using Github's [issues](https://github.com/furyaprotocol/v4-web/issues)
+Report a bug by [opening a new issue](https://github.com/furyaprotocol/v4-web/issues/new).
 
 **Great Bug Reports** tend to have:
 

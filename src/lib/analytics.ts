@@ -14,7 +14,7 @@ export const identify = <T extends AnalyticsUserProperty>(
   if (DEBUG_ANALYTICS) {
     console.log(`[Analytics:Identify] ${property}`, propertyValue);
   }
-  const customEvent = new CustomEvent('dydx:identify', {
+  const customEvent = new CustomEvent('furya:identify', {
     detail: { property, propertyValue },
   });
 
@@ -28,7 +28,7 @@ export const track = <T extends AnalyticsEvent>(
   if (DEBUG_ANALYTICS) {
     console.log(`[Analytics] ${eventType}`, eventData);
   }
-  const customEvent = new CustomEvent('dydx:track', {
+  const customEvent = new CustomEvent('furya:track', {
     detail: { eventType, eventData },
   });
 

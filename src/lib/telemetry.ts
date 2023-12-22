@@ -5,7 +5,7 @@ export const log = (location: string, error: Error, metadata?: any) => {
     console.warn('telemetry/log:', { location, error, metadata });
   }
 
-  const customEvent = new CustomEvent('dydx:log', {
+  const customEvent = new CustomEvent('furya:log', {
     detail: {
       location,
       error,

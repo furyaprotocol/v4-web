@@ -23,7 +23,7 @@ import { OnboardingTriggerButton } from '@/views/dialogs/OnboardingTriggerButton
 import { openDialog } from '@/state/dialogs';
 import { calculateCanAccountTrade } from '@/state/accountCalculators';
 
-export const DYDXBalancePanel = () => {
+export const FURYABalancePanel = () => {
   const dispatch = useDispatch();
   const stringGetter = useStringGetter();
 

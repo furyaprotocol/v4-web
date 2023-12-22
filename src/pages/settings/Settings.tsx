@@ -8,7 +8,7 @@ import {
 } from '@/constants/localization';
 
 import type { MenuItem } from '@/constants/menus';
-import { DydxNetwork } from '@/constants/networks';
+import { FuryaNetwork } from '@/constants/networks';
 import { AppRoute, MobileSettingsRoute } from '@/constants/routes';
 
 import { useStringGetter, useSelectedNetwork } from '@/hooks';
@@ -79,8 +79,8 @@ const SettingsPage = () => {
     type: PageMenuItemType.RadioGroup,
     value: selectedNetwork,
     label: stringGetter({ key: STRING_KEYS.NETWORK }),
-    onSelect: (network: string) => switchNetwork(network as DydxNetwork),
-    subitems: networks as MenuItem<DydxNetwork, PageMenuItemType>[],
+    onSelect: (network: string) => switchNetwork(network as FuryaNetwork),
+    subitems: networks as MenuItem<FuryaNetwork, PageMenuItemType>[],
   };
 
   return (

@@ -7,7 +7,7 @@ import { LanguageCode, ResolutionString, widget } from 'public/tradingview/chart
 import { DEFAULT_RESOLUTION } from '@/constants/candles';
 import { SUPPORTED_LOCALE_BASE_TAGS } from '@/constants/localization';
 import { LocalStorageKey } from '@/constants/localStorage';
-import { useDydxClient, useLocalStorage } from '@/hooks';
+import { useFuryaClient, useLocalStorage } from '@/hooks';
 import { store } from '@/state/_store';
 
 import { getSelectedNetwork } from '@/state/appSelectors';
@@ -15,7 +15,7 @@ import { getAppTheme } from '@/state/configsSelectors';
 import { getSelectedLocale } from '@/state/localizationSelectors';
 import { getCurrentMarketId, getMarketIds } from '@/state/perpetualsSelectors';
 
-import { getDydxDatafeed } from '@/lib/tradingView/dydxfeed';
+import { getFuryaDatafeed } from '@/lib/tradingView/furyafeed';
 import { getSavedResolution, getWidgetOptions, getWidgetOverrides } from '@/lib/tradingView/utils';
 
 /**
@@ -33,7 +33,7 @@ export const useTradingView = ({
   const marketIds = useSelector(getMarketIds, shallowEqual);
   const selectedLocale = useSelector(getSelectedLocale);
   const selectedNetwork = useSelector(getSelectedNetwork);
-  const { getCandlesForDatafeed, isConnected: isClientConnected } = useDydxClient();
+  const { getCandlesForDatafeed, isConnected: isClientConnected } = useFuryaClient();
 
   const [savedTvChartConfig, setTvChartConfig] = useLocalStorage<object | undefined>({
     key: LocalStorageKey.TradingViewChartConfig,
@@ -51,7 +51,7 @@ export const useTradingView = ({
         // debug: true,
         ...widgetOptions,
         ...widgetOverrides,
-        datafeed: getDydxDatafeed(store, getCandlesForDatafeed),
+        datafeed: getFuryaDatafeed(store, getCandlesForDatafeed),
         interval: (savedResolution || DEFAULT_RESOLUTION) as ResolutionString,
         locale: SUPPORTED_LOCALE_BASE_TAGS[selectedLocale] as LanguageCode,
         symbol: marketId,

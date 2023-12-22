@@ -23,7 +23,7 @@ try {
           Bugsnag.start(BUGSNAG_API_KEY);
         }
 
-        globalThis.addEventListener('dydx:identify', function (event) {
+        globalThis.addEventListener('furya:identify', function (event) {
           var property = event.detail.property;
           var value = event.detail.propertyValue;
 
@@ -36,7 +36,7 @@ try {
           }
         });
 
-        globalThis.addEventListener('dydx:log', function (event) {
+        globalThis.addEventListener('furya:log', function (event) {
           var error = event.detail.error;
           var metadata = event.detail.metadata;
           var location = event.detail.location;

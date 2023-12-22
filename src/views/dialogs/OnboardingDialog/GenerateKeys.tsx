@@ -10,9 +10,9 @@ import { AnalyticsEvent } from '@/constants/analytics';
 import { ButtonAction } from '@/constants/buttons';
 import { STRING_KEYS } from '@/constants/localization';
 import { ENVIRONMENT_CONFIG_MAP } from '@/constants/networks';
-import { DydxAddress, getSignTypedData } from '@/constants/wallets';
+import { FuryaAddress, getSignTypedData } from '@/constants/wallets';
 
-import { useAccounts, useBreakpoints, useDydxClient, useStringGetter } from '@/hooks';
+import { useAccounts, useBreakpoints, useFuryaClient, useStringGetter } from '@/hooks';
 import { useMatchingEvmNetwork } from '@/hooks/useMatchingEvmNetwork';
 
 import { layoutMixins } from '@/styles/layoutMixins';
@@ -77,7 +77,7 @@ export const GenerateKeys = ({
   };
 
   // 2. Derive keys from EVM account
-  const { getWalletFromEvmSignature } = useDydxClient();
+  const { getWalletFromEvmSignature } = useFuryaClient();
   const { getSubaccounts } = useAccounts();
 
   const isDeriving = ![
@@ -104,15 +104,15 @@ export const GenerateKeys = ({
       setStatus(EvmDerivedAccountStatus.Deriving);
 
       const signature = await signTypedDataAsync();
-      const { wallet: dydxWallet } = await getWalletFromEvmSignature({ signature });
+      const { wallet: furyaWallet } = await getWalletFromEvmSignature({ signature });
 
       // 2. Ensure signature is deterministic
       // Check if subaccounts exist
-      const dydxAddress = dydxWallet.address as DydxAddress;
+      const furyaAddress = furyaWallet.address as FuryaAddress;
       let hasPreviousTransactions = false;
 
       try {
-        const subaccounts = await getSubaccounts({ dydxAddress });
+        const subaccounts = await getSubaccounts({ furyaAddress });
         hasPreviousTransactions = subaccounts.length > 0;
 
         track(AnalyticsEvent.OnboardingAccountDerived, { hasPreviousTransactions });
@@ -168,7 +168,7 @@ export const GenerateKeys = ({
         {[
           {
             status: EvmDerivedAccountStatus.Deriving,
-            title: stringGetter({ key: STRING_KEYS.GENERATE_DYDX_WALLET }),
+            title: stringGetter({ key: STRING_KEYS.GENERATE_FURYA_WALLET }),
             description: stringGetter({ key: STRING_KEYS.VERIFY_WALLET_OWNERSHIP }),
           },
           status === EvmDerivedAccountStatus.EnsuringDeterminism && {

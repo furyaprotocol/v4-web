@@ -1,28 +1,28 @@
 export enum LocalStorageKey {
   // Onboarding / Accounts
-  EvmAddress = 'dydx.EvmAddress',
-  DydxAddress = 'dydx.DydxAddress',
-  OnboardingSelectedWalletType = 'dydx.OnboardingSelectedWalletType',
-  WalletConnectionType = 'dydx.WalletConnectionType',
-  OnboardingHasAcknowledgedTerms = 'dydx.OnboardingHasAcknowledgedTerms',
-  EvmDerivedAddresses = 'dydx.EvmDerivedAddresses',
+  EvmAddress = 'furya.EvmAddress',
+  FuryaAddress = 'furya.FuryaAddress',
+  OnboardingSelectedWalletType = 'furya.OnboardingSelectedWalletType',
+  WalletConnectionType = 'furya.WalletConnectionType',
+  OnboardingHasAcknowledgedTerms = 'furya.OnboardingHasAcknowledgedTerms',
+  EvmDerivedAddresses = 'furya.EvmDerivedAddresses',
 
   // Notifications
-  Notifications = 'dydx.Notifications',
-  NotificationsLastUpdated = 'dydx.NotificationsLastUpdated',
-  PushNotificationsEnabled = 'dydx.PushNotificationsEnabled',
-  PushNotificationsLastUpdated = 'dydx.PushNotificationsLastUpdated',
-  TransferNotifications = 'dydx.TransferNotifications',
-  NotificationPreferences = 'dydx.NotificationPreferences',
+  Notifications = 'furya.Notifications',
+  NotificationsLastUpdated = 'furya.NotificationsLastUpdated',
+  PushNotificationsEnabled = 'furya.PushNotificationsEnabled',
+  PushNotificationsLastUpdated = 'furya.PushNotificationsLastUpdated',
+  TransferNotifications = 'furya.TransferNotifications',
+  NotificationPreferences = 'furya.NotificationPreferences',
 
   // UI State
-  LastViewedMarket = 'dydx.LastViewedMarket',
-  SelectedLocale = 'dydx.SelectedLocale',
-  SelectedNetwork = 'dydx.SelectedNetwork',
-  SelectedTheme = 'dydx.SelectedTheme',
-  SelectedTradeLayout = 'dydx.SelectedTradeLayout',
-  TradingViewChartConfig = 'dydx.TradingViewChartConfig',
-  HasSeenLaunchIncentives = 'dydx.HasSeenLaunchIncentives',
+  LastViewedMarket = 'furya.LastViewedMarket',
+  SelectedLocale = 'furya.SelectedLocale',
+  SelectedNetwork = 'furya.SelectedNetwork',
+  SelectedTheme = 'furya.SelectedTheme',
+  SelectedTradeLayout = 'furya.SelectedTradeLayout',
+  TradingViewChartConfig = 'furya.TradingViewChartConfig',
+  HasSeenLaunchIncentives = 'furya.HasSeenLaunchIncentives',
 }
 
 export const LOCAL_STORAGE_VERSIONS = {

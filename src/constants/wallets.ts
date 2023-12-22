@@ -24,7 +24,7 @@ import {
 
 import { isMetaMask } from '@/lib/wallet/providers';
 
-import { DydxNetwork, ENVIRONMENT_CONFIG_MAP } from './networks';
+import { FuryaNetwork, ENVIRONMENT_CONFIG_MAP } from './networks';
 
 // Wallet connection types
 
@@ -274,20 +274,20 @@ export type WalletConnection = {
   provider?: ExternalProvider;
 };
 
-// dYdX Chain wallets
+// Furya Chain wallets
 export const COSMOS_DERIVATION_PATH = "m/44'/118'/0'/0/0";
 
 /**
- * @description typed data to sign for dYdX Chain onboarding
+ * @description typed data to sign for Furya Chain onboarding
  */
-export const getSignTypedData = (selectedNetwork: DydxNetwork) =>
+export const getSignTypedData = (selectedNetwork: FuryaNetwork) =>
   ({
-    primaryType: 'dYdX',
+    primaryType: 'Furya',
     domain: {
       name: ENVIRONMENT_CONFIG_MAP[selectedNetwork].wallets.signTypedDataDomainName,
     },
     types: {
-      dYdX: [{ name: 'action', type: 'string' }],
+      Furya: [{ name: 'action', type: 'string' }],
     },
     message: {
       action: ENVIRONMENT_CONFIG_MAP[selectedNetwork].wallets.signTypedDataAction,
@@ -297,22 +297,22 @@ export const getSignTypedData = (selectedNetwork: DydxNetwork) =>
 export type PrivateInformation = ReturnType<typeof onboarding.deriveHDKeyFromEthereumSignature>;
 
 export type EvmAddress = `0x${string}`;
-export type DydxAddress = `dydx${string}`;
+export type FuryaAddress = `furya${string}`;
 
-export const DYDX_CHAIN_INFO: Parameters<typeof suggestChain>[0] = {
-  rpc: 'https://dydx-testnet-archive.allthatnode.com:26657',
-  rest: 'https://dydx-testnet-archive.allthatnode.com:1317',
-  chainId: 'dydx-testnet-4',
-  chainName: 'dYdX Public Testnet',
+export const FURYA_CHAIN_INFO: Parameters<typeof suggestChain>[0] = {
+  rpc: 'https://furya-testnet-archive.allthatnode.com:26657',
+  rest: 'https://furya-testnet-archive.allthatnode.com:1317',
+  chainId: 'furya-testnet-4',
+  chainName: 'Furya Public Testnet',
   chainSymbolImageUrl:
-    'https://raw.githubusercontent.com/chainapsis/keplr-chain-registry/main/images/dydx-testnet-4/chain.png',
+    'https://raw.githubusercontent.com/chainapsis/keplr-chain-registry/main/images/furya-testnet-4/chain.png',
   bech32Config: {
-    bech32PrefixAccPub: 'dydxpub',
-    bech32PrefixValPub: 'dydxvaloperpub',
-    bech32PrefixAccAddr: 'dydx',
-    bech32PrefixConsPub: 'dydxvalconspub',
-    bech32PrefixValAddr: 'dydxvaloper',
-    bech32PrefixConsAddr: 'dydxvalcons',
+    bech32PrefixAccPub: 'furyapub',
+    bech32PrefixValPub: 'furyavaloperpub',
+    bech32PrefixAccAddr: 'furya',
+    bech32PrefixConsPub: 'furyavalconspub',
+    bech32PrefixValAddr: 'furyavaloper',
+    bech32PrefixConsAddr: 'furyavalcons',
   },
   bip44: {
     coinType: 118,
@@ -350,7 +350,7 @@ export const DYDX_CHAIN_INFO: Parameters<typeof suggestChain>[0] = {
 };
 
 // TODO: export this type from abacus instead
-export enum DydxChainAsset {
+export enum FuryaChainAsset {
   USDC = 'usdc',
   CHAINTOKEN = 'chain',
 }

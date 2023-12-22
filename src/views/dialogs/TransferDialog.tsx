@@ -1,14 +1,14 @@
 import styled, { type AnyStyledComponent } from 'styled-components';
 
 import { STRING_KEYS } from '@/constants/localization';
-import { DydxChainAsset } from '@/constants/wallets';
+import { FuryaChainAsset } from '@/constants/wallets';
 import { useStringGetter } from '@/hooks';
 
 import { Dialog } from '@/components/Dialog';
 import { TransferForm } from '@/views/forms/TransferForm';
 
 type ElementProps = {
-  selectedAsset?: DydxChainAsset;
+  selectedAsset?: FuryaChainAsset;
   setIsOpen?: (open: boolean) => void;
 };
 

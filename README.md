@@ -1,9 +1,9 @@
-<p align="center"><img src="https://dydx.exchange/icon.svg?" width="256" /></p>
+<p align="center"><img src="https://furya.exchange/icon.svg?" width="256" /></p>
 
-<h1 align="center">dYdX Chain Web</h1>
+<h1 align="center">Furya Chain Web</h1>
 
 <div align="center">
-  <a href='https://github.com/dydxprotocol/v4-web/blob/main/LICENSE'>
+  <a href='https://github.com/furyaprotocol/v4-web/blob/main/LICENSE'>
     <img src='https://img.shields.io/badge/License-AGPL_v3-blue.svg' alt='License' />
   </a>
 </div>
@@ -31,7 +31,7 @@ Alternatively, follow the [IPFS Kubo installation guide](https://docs.ipfs.tech
 Clone the repository and navigate to its directory:
 
 ```bash
-git clone https://github.com/dydxprotocol/v4-web.git
+git clone https://github.com/furyaprotocol/v4-web.git
 cd v4-web
 ```
 
@@ -67,7 +67,7 @@ This will automatically open your default browser at `http://localhost:61000`.
 Add or modify the relevant endpoints, links and options in `/public/configs/env.json`.
 You'll need to provide a Wallet Connect project id to enable onboarding and wallet connection:
 - Create a project on https://cloud.walletconnect.com/app
-- Copy over the project ID into this [field](https://github.com/dydxprotocol/v4-web/blob/67ecbd75b43e0c264b7b4d2d9b3d969830b0621c/public/configs/env.json#L822C33-L822C46)
+- Copy over the project ID into this [field](https://github.com/furyaprotocol/v4-web/blob/67ecbd75b43e0c264b7b4d2d9b3d969830b0621c/public/configs/env.json#L822C33-L822C46)
 
 ## Part 4: Set Enviornment variables
 Set environment variables via `.env`.
@@ -75,7 +75,7 @@ Set environment variables via `.env`.
 - `VITE_BASE_URL` (required): The base URL of the deployment (e.g., `https://www.example.com`).
 - `VITE_ALCHEMY_API_KEY` (optional): Add an Alchemy API key for EVM interactions; the app will fall back to public RPCs if not provided.
 - `VITE_PK_ENCRYPTION_KEY` (optional): AES encryption key used for signature obfuscation; necessary for enabling the "Remember Me" feature.
-- `VITE_V3_TOKEN_ADDRESS` (optional): Address of the V3 $DYDX token.
+- `VITE_V3_TOKEN_ADDRESS` (optional): Address of the V3 $FURYA token.
 - `VITE_TOKEN_MIGRATION_URI` (optional): The URL of the token migration website.
 - `AMPLITUDE_API_KEY` (optional): Amplitude API key for enabling Amplitude; used with `pnpm run build:inject-amplitude`.
 - `BUGSNAG_API_KEY` (optional): API key for enabling Bugsnag; used with `pnpm run build:inject-bugsnag`.

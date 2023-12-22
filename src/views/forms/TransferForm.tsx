@@ -11,12 +11,12 @@ import { ButtonShape, ButtonSize } from '@/constants/buttons';
 import { STRING_KEYS } from '@/constants/localization';
 import { ENVIRONMENT_CONFIG_MAP } from '@/constants/networks';
 import { NumberSign } from '@/constants/numbers';
-import { DydxChainAsset } from '@/constants/wallets';
+import { FuryaChainAsset } from '@/constants/wallets';
 
 import {
   useAccountBalance,
   useAccounts,
-  useDydxClient,
+  useFuryaClient,
   useRestrictions,
   useSelectedNetwork,
   useStringGetter,
@@ -48,19 +48,19 @@ import { MustBigNumber } from '@/lib/numbers';
 import { log } from '@/lib/telemetry';
 
 type TransferFormProps = {
-  selectedAsset?: DydxChainAsset;
+  selectedAsset?: FuryaChainAsset;
   onDone?: () => void;
   className?: string;
 };
 
 export const TransferForm = ({
-  selectedAsset = DydxChainAsset.CHAINTOKEN,
+  selectedAsset = FuryaChainAsset.CHAINTOKEN,
   onDone,
   className,
 }: TransferFormProps) => {
   const stringGetter = useStringGetter();
   const { freeCollateral } = useSelector(getSubaccount, shallowEqual) || {};
-  const { dydxAddress } = useAccounts();
+  const { furyaAddress } = useAccounts();
   const { transfer } = useSubaccount();
   const { nativeTokenBalance, usdcBalance } = useAccountBalance();
   const { selectedNetwork } = useSelectedNetwork();
@@ -83,8 +83,8 @@ export const TransferForm = ({
     setCurrentFee(fee);
   }, [fee]);
 
-  const asset = (token ?? selectedAsset) as DydxChainAsset;
-  const isUSDCSelected = asset === DydxChainAsset.USDC;
+  const asset = (token ?? selectedAsset) as FuryaChainAsset;
+  const isUSDCSelected = asset === FuryaChainAsset.USDC;
   const amount = isUSDCSelected ? size?.usdcSize : size?.size;
   const showNotEnoughGasWarning = fee && isUSDCSelected && usdcBalance < fee;
   const balance = isUSDCSelected ? freeCollateral?.current : nativeTokenBalance;
@@ -97,7 +97,7 @@ export const TransferForm = ({
   const amountBN = MustBigNumber(amount);
   const balanceBN = MustBigNumber(balance);
 
-  const onChangeAsset = (asset: DydxChainAsset) => {
+  const onChangeAsset = (asset: FuryaChainAsset) => {
     setError(undefined);
     setCurrentFee(undefined);
 
@@ -131,15 +131,15 @@ export const TransferForm = ({
   const isAddressValid = useMemo(
     () =>
       recipientAddress &&
-      dydxAddress !== recipientAddress &&
+      furyaAddress !== recipientAddress &&
       validation.isValidAddress(recipientAddress) &&
       !sanctionedAddresses.has(recipientAddress),
-    [recipientAddress, sanctionedAddresses, dydxAddress]
+    [recipientAddress, sanctionedAddresses, furyaAddress]
   );
 
   const isAmountValid = balance && amount && amountBN.gt(0) && newBalanceBN.gte(0);
 
-  const { screenAddresses } = useDydxClient();
+  const { screenAddresses } = useFuryaClient();
 
   const onTransfer = async () => {
     if (!isAmountValid || !isAddressValid || !fee) return;
@@ -148,10 +148,10 @@ export const TransferForm = ({
 
     try {
       const screenResults = await screenAddresses({
-        addresses: [recipientAddress!, dydxAddress!],
+        addresses: [recipientAddress!, furyaAddress!],
       });
 
-      if (screenResults?.[dydxAddress!]) {
+      if (screenResults?.[furyaAddress!]) {
         setError(
           stringGetter({
             key: STRING_KEYS.WALLET_RESTRICTED_WITHDRAWAL_TRANSFER_ORIGINATION_ERROR_MESSAGE,
@@ -223,7 +223,7 @@ export const TransferForm = ({
 
   const assetOptions = [
     {
-      value: DydxChainAsset.USDC,
+      value: FuryaChainAsset.USDC,
       label: (
         <Styled.InlineRow>
           <AssetIcon symbol="USDC" /> {usdcLabel}
@@ -231,7 +231,7 @@ export const TransferForm = ({
       ),
     },
     {
-      value: DydxChainAsset.CHAINTOKEN,
+      value: FuryaChainAsset.CHAINTOKEN,
       label: (
         <Styled.InlineRow>
           <AssetIcon symbol={chainTokenLabel} />
@@ -243,10 +243,10 @@ export const TransferForm = ({
 
   const networkOptions = [
     {
-      chainId: ENVIRONMENT_CONFIG_MAP[selectedNetwork].dydxChainId,
+      chainId: ENVIRONMENT_CONFIG_MAP[selectedNetwork].furyaChainId,
       label: (
         <Styled.InlineRow>
-          <AssetIcon symbol="DYDX" /> {stringGetter({ key: STRING_KEYS.DYDX_CHAIN })}
+          <AssetIcon symbol="FURYA" /> {stringGetter({ key: STRING_KEYS.FURYA_CHAIN })}
         </Styled.InlineRow>
       ),
     },
@@ -326,7 +326,7 @@ export const TransferForm = ({
         />
         <Styled.NetworkSelectMenu
           label={stringGetter({ key: STRING_KEYS.NETWORK })}
-          value={ENVIRONMENT_CONFIG_MAP[selectedNetwork].dydxChainId}
+          value={ENVIRONMENT_CONFIG_MAP[selectedNetwork].furyaChainId}
           slotTriggerAfter={null}
         >
           {networkOptions.map(({ chainId, label }) => (
@@ -339,9 +339,9 @@ export const TransferForm = ({
         <Styled.AddressValidationAlertMessage type={AlertType.Error}>
           {stringGetter({
             key:
-              dydxAddress === recipientAddress
+              furyaAddress === recipientAddress
                 ? STRING_KEYS.TRANSFER_TO_YOURSELF
-                : STRING_KEYS.TRANSFER_INVALID_DYDX_ADDRESS,
+                : STRING_KEYS.TRANSFER_INVALID_FURYA_ADDRESS,
           })}
         </Styled.AddressValidationAlertMessage>
       )}

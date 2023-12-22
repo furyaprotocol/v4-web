@@ -7,7 +7,7 @@ import { NOBLE_BECH32_PREFIX, LocalWallet, type Subaccount } from '@dydxprotocol
 import { OnboardingGuard, OnboardingState, type EvmDerivedAddresses } from '@/constants/account';
 import { DialogTypes } from '@/constants/dialogs';
 import { LocalStorageKey, LOCAL_STORAGE_VERSIONS } from '@/constants/localStorage';
-import { DydxAddress, EvmAddress, PrivateInformation } from '@/constants/wallets';
+import { FuryaAddress, EvmAddress, PrivateInformation } from '@/constants/wallets';
 
 import { setOnboardingState, setOnboardingGuard } from '@/state/account';
 import { forceOpenDialog } from '@/state/dialogs';
@@ -15,7 +15,7 @@ import { forceOpenDialog } from '@/state/dialogs';
 import abacusStateManager from '@/lib/abacus';
 import { log } from '@/lib/telemetry';
 
-import { useDydxClient } from './useDydxClient';
+import { useFuryaClient } from './useFuryaClient';
 import { useLocalStorage } from './useLocalStorage';
 import { useRestrictions } from './useRestrictions';
 import { useWalletConnection } from './useWalletConnection';
@@ -43,7 +43,7 @@ const useAccountsContext = () => {
     evmAddress,
     signerWagmi,
     publicClientWagmi,
-    dydxAddress: connectedDydxAddress,
+    furyaAddress: connectedFuryaAddress,
     signerGraz,
   } = useWalletConnection();
 
@@ -54,7 +54,7 @@ const useAccountsContext = () => {
     // Wallet accounts switched
     if (previousEvmAddress && evmAddress && evmAddress !== previousEvmAddress) {
       // Disconnect local wallet
-      disconnectLocalDydxWallet();
+      disconnectLocalFuryaWallet();
 
       // Forget EVM signature
       forgetEvmSignature(previousEvmAddress);
@@ -67,7 +67,7 @@ const useAccountsContext = () => {
     setPreviousEvmAddress(evmAddress);
   }, [evmAddress]);
 
-  // EVM → dYdX account derivation
+  // EVM → Furya account derivation
 
   const [evmDerivedAddresses, saveEvmDerivedAddresses] = useLocalStorage({
     key: LocalStorageKey.EvmDerivedAddresses,
@@ -82,17 +82,17 @@ const useAccountsContext = () => {
 
   const saveEvmDerivedAccount = ({
     evmAddress,
-    dydxAddress,
+    furyaAddress,
   }: {
     evmAddress: EvmAddress;
-    dydxAddress?: DydxAddress;
+    furyaAddress?: FuryaAddress;
   }) => {
     saveEvmDerivedAddresses({
       ...evmDerivedAddresses,
       version: LOCAL_STORAGE_VERSIONS[LocalStorageKey.EvmDerivedAddresses],
       [evmAddress]: {
         ...evmDerivedAddresses[evmAddress],
-        dydxAddress,
+        furyaAddress,
       },
     });
   };
@@ -126,17 +126,17 @@ const useAccountsContext = () => {
     return signature;
   };
 
-  // dYdXClient Onboarding & Account Helpers
-  const { compositeClient, getWalletFromEvmSignature } = useDydxClient();
-  // dYdX subaccounts
-  const [dydxSubaccounts, setDydxSubaccounts] = useState<Subaccount[] | undefined>();
+  // FuryaClient Onboarding & Account Helpers
+  const { compositeClient, getWalletFromEvmSignature } = useFuryaClient();
+  // Furya subaccounts
+  const [furyaSubaccounts, setFuryaSubaccounts] = useState<Subaccount[] | undefined>();
 
   const { getSubaccounts } = useMemo(
     () => ({
-      getSubaccounts: async ({ dydxAddress }: { dydxAddress: DydxAddress }) => {
+      getSubaccounts: async ({ furyaAddress }: { furyaAddress: FuryaAddress }) => {
         try {
-          const response = await compositeClient?.indexerClient.account.getSubaccounts(dydxAddress);
-          setDydxSubaccounts(response?.subaccounts);
+          const response = await compositeClient?.indexerClient.account.getSubaccounts(furyaAddress);
+          setFuryaSubaccounts(response?.subaccounts);
           return response?.subaccounts ?? [];
         } catch (error) {
           // 404 is expected if the user has no subaccounts
@@ -151,43 +151,43 @@ const useAccountsContext = () => {
     [compositeClient]
   );
 
-  // dYdX wallet / onboarding state
-  const [localDydxWallet, setLocalDydxWallet] = useState<LocalWallet>();
+  // Furya wallet / onboarding state
+  const [localFuryaWallet, setLocalFuryaWallet] = useState<LocalWallet>();
   const [hdKey, setHdKey] = useState<PrivateInformation>();
 
-  const dydxAccounts = useMemo(() => localDydxWallet?.accounts, [localDydxWallet]);
+  const furyaAccounts = useMemo(() => localFuryaWallet?.accounts, [localFuryaWallet]);
 
-  const dydxAddress = useMemo(
-    () => localDydxWallet?.address as DydxAddress | undefined,
-    [localDydxWallet]
+  const furyaAddress = useMemo(
+    () => localFuryaWallet?.address as FuryaAddress | undefined,
+    [localFuryaWallet]
   );
 
   const setWalletFromEvmSignature = async (signature: string) => {
     const { wallet, mnemonic, privateKey, publicKey } = await getWalletFromEvmSignature({
       signature,
     });
-    setLocalDydxWallet(wallet);
+    setLocalFuryaWallet(wallet);
     setHdKey({ mnemonic, privateKey, publicKey });
   };
 
   useEffect(() => {
     if (evmAddress) {
-      saveEvmDerivedAccount({ evmAddress, dydxAddress });
+      saveEvmDerivedAccount({ evmAddress, furyaAddress });
     }
-  }, [evmAddress, dydxAddress]);
+  }, [evmAddress, furyaAddress]);
 
   useEffect(() => {
     (async () => {
-      if (connectedDydxAddress && signerGraz) {
+      if (connectedFuryaAddress && signerGraz) {
         dispatch(setOnboardingState(OnboardingState.WalletConnected));
         try {
-          setLocalDydxWallet(await LocalWallet.fromOfflineSigner(signerGraz));
+          setLocalFuryaWallet(await LocalWallet.fromOfflineSigner(signerGraz));
           dispatch(setOnboardingState(OnboardingState.AccountConnected));
         } catch (error) {
-          log('useAccounts/setLocalDydxWallet', error);
+          log('useAccounts/setLocalFuryaWallet', error);
         }
       } else if (evmAddress) {
-        if (!localDydxWallet) {
+        if (!localFuryaWallet) {
           dispatch(setOnboardingState(OnboardingState.WalletConnected));
 
           const evmDerivedAccount = evmDerivedAddresses[evmAddress];
@@ -207,17 +207,17 @@ const useAccountsContext = () => {
           dispatch(setOnboardingState(OnboardingState.AccountConnected));
         }
       } else {
-        disconnectLocalDydxWallet();
+        disconnectLocalFuryaWallet();
         dispatch(setOnboardingState(OnboardingState.Disconnected));
       }
     })();
-  }, [evmAddress, evmDerivedAddresses, signerWagmi, connectedDydxAddress, signerGraz]);
+  }, [evmAddress, evmDerivedAddresses, signerWagmi, connectedFuryaAddress, signerGraz]);
 
   // abacus
   useEffect(() => {
-    if (dydxAddress) abacusStateManager.setAccount(localDydxWallet);
+    if (furyaAddress) abacusStateManager.setAccount(localFuryaWallet);
     else abacusStateManager.attemptDisconnectAccount();
-  }, [localDydxWallet]);
+  }, [localFuryaWallet]);
 
   useEffect(() => {
     const setNobleWallet = async () => {
@@ -229,14 +229,14 @@ const useAccountsContext = () => {
     setNobleWallet();
   }, [hdKey?.mnemonic]);
 
-  // clear subaccounts when no dydxAddress is set
+  // clear subaccounts when no furyaAddress is set
   useEffect(() => {
     (async () => {
-      if (!dydxAddress) {
-        setDydxSubaccounts(undefined);
+      if (!furyaAddress) {
+        setFuryaSubaccounts(undefined);
       }
     })();
-  }, [dydxAddress]);
+  }, [furyaAddress]);
 
   // Onboarding conditions
   const [hasAcknowledgedTerms, saveHasAcknowledgedTerms] = useLocalStorage({
@@ -254,7 +254,7 @@ const useAccountsContext = () => {
   }, [hasAcknowledgedTerms]);
 
   useEffect(() => {
-    const hasPreviousTransactions = Boolean(dydxSubaccounts?.length);
+    const hasPreviousTransactions = Boolean(furyaSubaccounts?.length);
 
     dispatch(
       setOnboardingGuard({
@@ -262,32 +262,32 @@ const useAccountsContext = () => {
         value: hasPreviousTransactions,
       })
     );
-  }, [dydxSubaccounts]);
+  }, [furyaSubaccounts]);
 
   // Restrictions
   const { isBadActor, sanctionedAddresses } = useRestrictions();
 
   useEffect(() => {
     if (
-      dydxAddress &&
+      furyaAddress &&
       (isBadActor ||
-        sanctionedAddresses.has(dydxAddress) ||
+        sanctionedAddresses.has(furyaAddress) ||
         (evmAddress && sanctionedAddresses.has(evmAddress)))
     ) {
       dispatch(forceOpenDialog({ type: DialogTypes.RestrictedWallet }));
       disconnect();
     }
-  }, [isBadActor, evmAddress, dydxAddress, sanctionedAddresses]);
+  }, [isBadActor, evmAddress, furyaAddress, sanctionedAddresses]);
 
   // Disconnect wallet / accounts
-  const disconnectLocalDydxWallet = () => {
-    setLocalDydxWallet(undefined);
+  const disconnectLocalFuryaWallet = () => {
+    setLocalFuryaWallet(undefined);
     setHdKey(undefined);
   };
 
   const disconnect = async () => {
     // Disconnect local wallet
-    disconnectLocalDydxWallet();
+    disconnectLocalFuryaWallet();
 
     // Disconnect EVM wallet
     forgetEvmSignature();
@@ -312,16 +312,16 @@ const useAccountsContext = () => {
     // Wallet connection (Cosmos)
     signerGraz,
 
-    // EVM → dYdX account derivation
+    // EVM → Furya account derivation
     setWalletFromEvmSignature,
     saveEvmSignature,
     forgetEvmSignature,
 
-    // dYdX accounts
+    // Furya accounts
     hdKey,
-    localDydxWallet,
-    dydxAccounts,
-    dydxAddress,
+    localFuryaWallet,
+    furyaAccounts,
+    furyaAddress,
 
     // Onboarding state
     saveHasAcknowledgedTerms,
@@ -329,7 +329,7 @@ const useAccountsContext = () => {
     // Disconnect wallet / accounts
     disconnect,
 
-    // dydxClient Account methods
+    // furyaClient Account methods
     getSubaccounts,
   };
 };

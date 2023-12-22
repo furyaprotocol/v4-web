@@ -1,4 +1,4 @@
-name: Deploy to v4.testnet.dydx.exchange
+name: Deploy to v4.testnet.furya.exchange
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up pnpm
-        uses: dydxprotocol/setup-pnpm@v1
+        uses: furyaprotocol/setup-pnpm@v1
 
       - name: Set up Node
         uses: actions/setup-node@v3
@@ -42,7 +42,7 @@ jobs:
           sh scripts/inject-app-deeplinks.sh
 
       - name: Upload to IPFS via web3.storage
-        uses: dydxprotocol/add-to-web3@v1
+        uses: furyaprotocol/add-to-web3@v1
         id: web3storage
         with:
           web3_token: ${{ secrets.WEB3_STORAGE_TOKEN }}

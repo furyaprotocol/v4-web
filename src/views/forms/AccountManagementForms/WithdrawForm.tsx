@@ -16,7 +16,7 @@ import { NumberSign } from '@/constants/numbers';
 import {
   useAccounts,
   useDebounce,
-  useDydxClient,
+  useFuryaClient,
   useRestrictions,
   useSelectedNetwork,
   useStringGetter,
@@ -136,15 +136,15 @@ export const WithdrawForm = () => {
     setTransferValue();
   }, [debouncedAmountBN]);
 
-  const { screenAddresses } = useDydxClient();
-  const { dydxAddress } = useAccounts();
+  const { screenAddresses } = useFuryaClient();
+  const { furyaAddress } = useAccounts();
 
   const onSubmit = useCallback(
     async (e: FormEvent) => {
       try {
         e.preventDefault();
 
-        if (!requestPayload?.data || !debouncedAmountBN.toNumber() || !toAddress || !dydxAddress) {
+        if (!requestPayload?.data || !debouncedAmountBN.toNumber() || !toAddress || !furyaAddress) {
           throw new Error('Invalid request payload');
         }
 
@@ -152,10 +152,10 @@ export const WithdrawForm = () => {
         setError(undefined);
 
         const screenResults = await screenAddresses({
-          addresses: [toAddress, dydxAddress],
+          addresses: [toAddress, furyaAddress],
         });
 
-        if (screenResults?.[dydxAddress]) {
+        if (screenResults?.[furyaAddress]) {
           setError(
             stringGetter({
               key: STRING_KEYS.WALLET_RESTRICTED_WITHDRAWAL_TRANSFER_ORIGINATION_ERROR_MESSAGE,
@@ -173,7 +173,7 @@ export const WithdrawForm = () => {
             addTransferNotification({
               txHash: txHash,
               type: TransferNotificationTypes.Withdrawal,
-              fromChainId: !isCctp ? ENVIRONMENT_CONFIG_MAP[selectedNetwork].dydxChainId : getNobleChainId(),
+              fromChainId: !isCctp ? ENVIRONMENT_CONFIG_MAP[selectedNetwork].furyaChainId : getNobleChainId(),
               toChainId: chainIdStr || undefined,
               toAmount: debouncedAmountBN.toNumber(),
               triggeredAt: Date.now(),
@@ -302,7 +302,7 @@ export const WithdrawForm = () => {
 
     if (sanctionedAddresses.has(toAddress))
       return stringGetter({
-        key: STRING_KEYS.TRANSFER_INVALID_DYDX_ADDRESS,
+        key: STRING_KEYS.TRANSFER_INVALID_FURYA_ADDRESS,
       });
 
     if (debouncedAmountBN) {

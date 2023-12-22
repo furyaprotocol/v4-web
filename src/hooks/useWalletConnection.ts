@@ -5,12 +5,12 @@ import { LocalStorageKey } from '@/constants/localStorage';
 import { ENVIRONMENT_CONFIG_MAP } from '@/constants/networks';
 
 import {
-  type DydxAddress,
+  type FuryaAddress,
   type EvmAddress,
   WalletConnectionType,
   WalletType,
   wallets,
-  DYDX_CHAIN_INFO,
+  FURYA_CHAIN_INFO,
 } from '@/constants/wallets';
 
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -57,20 +57,20 @@ export const useWalletConnection = () => {
   }, [evmAddressWagmi]);
 
   // Cosmos wallet connection
-  const [dydxAddress, saveDydxAddress] = useLocalStorage<DydxAddress | undefined>({
-    key: LocalStorageKey.DydxAddress,
+  const [furyaAddress, saveFuryaAddress] = useLocalStorage<FuryaAddress | undefined>({
+    key: LocalStorageKey.FuryaAddress,
     defaultValue: undefined,
   });
-  const { data: dydxAccountGraz, isConnected: isConnectedGraz } = useAccountGraz();
+  const { data: furyaAccountGraz, isConnected: isConnectedGraz } = useAccountGraz();
   const { signer: signerGraz } = useOfflineSignersGraz();
   const { disconnectAsync: disconnectGraz } = useDisconnectGraz();
 
-  const dydxAddressGraz = dydxAccountGraz?.bech32Address;
+  const furyaAddressGraz = furyaAccountGraz?.bech32Address;
 
   useEffect(() => {
     // Cache last connected address
-    if (dydxAddressGraz) saveDydxAddress(dydxAddressGraz as DydxAddress);
-  }, [dydxAddressGraz]);
+    if (furyaAddressGraz) saveFuryaAddress(furyaAddressGraz as FuryaAddress);
+  }, [furyaAddressGraz]);
 
   // Wallet connection
 
@@ -127,7 +127,7 @@ export const useWalletConnection = () => {
 
           if (!isConnectedGraz) {
             await connectGraz({
-              chainInfo: DYDX_CHAIN_INFO,
+              chainInfo: FURYA_CHAIN_INFO,
               walletType: cosmosWalletType,
             });
           }
@@ -161,7 +161,7 @@ export const useWalletConnection = () => {
 
   const disconnectWallet = useCallback(async () => {
     saveEvmAddress(undefined);
-    saveDydxAddress(undefined);
+    saveFuryaAddress(undefined);
 
     if (isConnectedWagmi) await disconnectWagmi();
     if (isConnectedGraz) await disconnectGraz();
@@ -230,8 +230,8 @@ export const useWalletConnection = () => {
     publicClientWagmi,
 
     // Wallet connection (Cosmos)
-    dydxAddress,
-    dydxAddressGraz,
+    furyaAddress,
+    furyaAddressGraz,
     signerGraz,
   };
 };

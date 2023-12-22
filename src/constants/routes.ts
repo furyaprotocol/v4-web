@@ -36,4 +36,4 @@ export const PORTFOLIO_ROUTE = `${AppRoute.Portfolio}/:subroute`;
 export const HISTORY_ROUTE = `${AppRoute.Portfolio}/${PortfolioRoute.History}/:subroute`;
 export const DEFAULT_TRADE_ROUTE = `${AppRoute.Trade}/${DEFAULT_MARKETID}`;
 export const SETTINGS_ROUTE = `${AppRoute.Settings}/*`;
-export const DEFAULT_DOCUMENT_TITLE = 'dYdX';
+export const DEFAULT_DOCUMENT_TITLE = 'Furya';

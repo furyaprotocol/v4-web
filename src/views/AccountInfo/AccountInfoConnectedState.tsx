@@ -50,7 +50,7 @@ export const AccountInfoConnectedState = () => {
   const dispatch = useDispatch();
   const { isTablet } = useBreakpoints();
 
-  const { dydxAccounts } = useAccounts();
+  const { furyaAccounts } = useAccounts();
 
   const inputErrors = useSelector(getInputErrors, shallowEqual);
   const currentMarketId = useSelector(getCurrentMarketId);
@@ -76,7 +76,7 @@ export const AccountInfoConnectedState = () => {
           <span>{stringGetter({ key: STRING_KEYS.ACCOUNT })}</span>
           <Styled.TransferButtons>
             <Styled.Button
-              state={{ isDisabled: !dydxAccounts }}
+              state={{ isDisabled: !furyaAccounts }}
               onClick={() => dispatch(openDialog({ type: DialogTypes.Withdraw }))}
               shape={ButtonShape.Pill}
               size={ButtonSize.XSmall}
@@ -84,7 +84,7 @@ export const AccountInfoConnectedState = () => {
               {stringGetter({ key: STRING_KEYS.WITHDRAW })}
             </Styled.Button>
             <Styled.Button
-              state={{ isDisabled: !dydxAccounts }}
+              state={{ isDisabled: !furyaAccounts }}
               onClick={() => dispatch(openDialog({ type: DialogTypes.Deposit }))}
               shape={ButtonShape.Pill}
               size={ButtonSize.XSmall}
@@ -97,7 +97,7 @@ export const AccountInfoConnectedState = () => {
       <Styled.Stack>
         {!showHeader && !isTablet && (
           <Styled.CornerButton
-            state={{ isDisabled: !dydxAccounts }}
+            state={{ isDisabled: !furyaAccounts }}
             onClick={() => dispatch(openDialog({ type: DialogTypes.Deposit }))}
           >
             <Styled.CircleContainer>

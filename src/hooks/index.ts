@@ -6,7 +6,7 @@ import { useCurrentMarketId } from './useCurrentMarketId';
 import { useDebounce } from './useDebounce';
 import { useInterval } from './useInterval';
 import { useDocumentTitle } from './useDocumentTitle';
-import { useDydxClient } from './useDydxClient';
+import { useFuryaClient } from './useFuryaClient';
 import { useAccountBalance } from './useAccountBalance';
 import { useAccounts } from './useAccounts';
 import { useAnalytics } from './useAnalytics';
@@ -33,7 +33,7 @@ export {
   useCurrentMarketId,
   useDebounce,
   useDocumentTitle,
-  useDydxClient,
+  useFuryaClient,
   useAccountBalance,
   useAccounts,
   useAnalytics,

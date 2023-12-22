@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { LocalStorageKey } from '@/constants/localStorage';
 
-import { DEFAULT_APP_ENVIRONMENT, type DydxNetwork } from '@/constants/networks';
+import { DEFAULT_APP_ENVIRONMENT, type FuryaNetwork } from '@/constants/networks';
 
 import { useLocalStorage } from '@/hooks';
 
@@ -16,7 +16,7 @@ export const useInitializePage = () => {
   const dispatch = useDispatch();
 
   // Sync localStorage value with Redux
-  const [localStorageNetwork] = useLocalStorage<DydxNetwork>({
+  const [localStorageNetwork] = useLocalStorage<FuryaNetwork>({
     key: LocalStorageKey.SelectedNetwork,
     defaultValue: DEFAULT_APP_ENVIRONMENT,
     validateFn: validateAgainstAvailableEnvironments,

@@ -12,7 +12,7 @@ import {
 import { lastSuccessfulWebsocketRequestByOrigin } from '@/hooks/useAnalytics';
 import { testFlags } from '@/lib/testFlags';
 
-import { subscriptionsByChannelId } from '@/lib/tradingView/dydxfeed/cache';
+import { subscriptionsByChannelId } from '@/lib/tradingView/furyafeed/cache';
 import { mapCandle } from '@/lib/tradingView/utils';
 
 import { log } from '../telemetry';

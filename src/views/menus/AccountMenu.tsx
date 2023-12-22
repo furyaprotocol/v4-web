@@ -8,7 +8,7 @@ import { ButtonAction, ButtonShape, ButtonSize, ButtonType } from '@/constants/b
 import { DialogTypes } from '@/constants/dialogs';
 import { STRING_KEYS, StringGetterFunction, TOOLTIP_STRING_KEYS } from '@/constants/localization';
 import { isMainnet } from '@/constants/networks';
-import { DydxChainAsset, wallets } from '@/constants/wallets';
+import { FuryaChainAsset, wallets } from '@/constants/wallets';
 
 import {
   useAccounts,
@@ -50,7 +50,7 @@ export const AccountMenu = () => {
   const { nativeTokenBalance } = useAccountBalance();
   const { usdcLabel, chainTokenLabel } = useTokenConfigs();
 
-  const { evmAddress, walletType, dydxAddress, hdKey } = useAccounts();
+  const { evmAddress, walletType, furyaAddress, hdKey } = useAccounts();
 
   const usdcBalance = freeCollateral?.current || 0;
 
@@ -66,16 +66,16 @@ export const AccountMenu = () => {
         onboardingState === OnboardingState.AccountConnected && (
           <Styled.AccountInfo>
             <Styled.AddressRow>
-              <Styled.AssetIcon symbol="DYDX" />
+              <Styled.AssetIcon symbol="FURYA" />
               <Styled.Column>
                 <WithTooltip
                   slotTooltip={
                     <dl>
                       <dt>
                         {stringGetter({
-                          key: TOOLTIP_STRING_KEYS.DYDX_ADDRESS_BODY,
+                          key: TOOLTIP_STRING_KEYS.FURYA_ADDRESS_BODY,
                           params: {
-                            DYDX_ADDRESS: <strong>{truncateAddress(dydxAddress)}</strong>,
+                            FURYA_ADDRESS: <strong>{truncateAddress(furyaAddress)}</strong>,
                             EVM_ADDRESS: truncateAddress(evmAddress, '0x'),
                           },
                         })}
@@ -84,16 +84,16 @@ export const AccountMenu = () => {
                   }
                 >
                   <Styled.label>
-                    {stringGetter({ key: STRING_KEYS.DYDX_CHAIN_ADDRESS })}
+                    {stringGetter({ key: STRING_KEYS.FURYA_CHAIN_ADDRESS })}
                   </Styled.label>
                 </WithTooltip>
-                <Styled.Address>{truncateAddress(dydxAddress)}</Styled.Address>
+                <Styled.Address>{truncateAddress(furyaAddress)}</Styled.Address>
               </Styled.Column>
-              <Styled.CopyButton buttonType="icon" value={dydxAddress} shape={ButtonShape.Square} />
+              <Styled.CopyButton buttonType="icon" value={furyaAddress} shape={ButtonShape.Square} />
               <WithTooltip tooltipString={stringGetter({ key: STRING_KEYS.MINTSCAN })}>
                 <Styled.IconButton
                   action={ButtonAction.Base}
-                  href={`${mintscanBase}/account/${dydxAddress}`}
+                  href={`${mintscanBase}/account/${furyaAddress}`}
                   iconName={IconName.LinkOut}
                   shape={ButtonShape.Square}
                   type={ButtonType.Link}
@@ -125,7 +125,7 @@ export const AccountMenu = () => {
                   <Styled.BalanceOutput type={OutputType.Asset} value={nativeTokenBalance} />
                 </div>
                 <AssetActions
-                  asset={DydxChainAsset.CHAINTOKEN}
+                  asset={FuryaChainAsset.CHAINTOKEN}
                   dispatch={dispatch}
                   hasBalance={nativeTokenBalance.gt(0)}
                   stringGetter={stringGetter}
@@ -147,7 +147,7 @@ export const AccountMenu = () => {
                   />
                 </div>
                 <AssetActions
-                  asset={DydxChainAsset.USDC}
+                  asset={FuryaChainAsset.USDC}
                   dispatch={dispatch}
                   hasBalance={MustBigNumber(usdcBalance).gt(0)}
                   stringGetter={stringGetter}
@@ -209,7 +209,7 @@ export const AccountMenu = () => {
       ) : onboardingState === OnboardingState.AccountConnected ? (
         walletType && <Icon iconComponent={wallets[walletType].icon} />
       ) : null}
-      {!isTablet && <Styled.Address>{truncateAddress(dydxAddress)}</Styled.Address>}
+      {!isTablet && <Styled.Address>{truncateAddress(furyaAddress)}</Styled.Address>}
     </Styled.DropdownMenu>
   );
 };
@@ -222,7 +222,7 @@ const AssetActions = memo(
     hasBalance,
     stringGetter,
   }: {
-    asset: DydxChainAsset;
+    asset: FuryaChainAsset;
     dispatch: Dispatch;
     withOnboarding?: boolean;
     hasBalance?: boolean;

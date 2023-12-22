@@ -10,7 +10,7 @@ import { useApiState } from './useApiState';
 import { useBreakpoints } from './useBreakpoints';
 import { useSelectedNetwork } from './useSelectedNetwork';
 import { useAccounts } from './useAccounts';
-import { useDydxClient } from './useDydxClient';
+import { useFuryaClient } from './useFuryaClient';
 
 import { getSelectedLocale } from '@/state/localizationSelectors';
 import { getOnboardingState, getSubaccountId } from '@/state/accountSelectors';
@@ -22,8 +22,8 @@ import { getSelectedTradeType } from '@/lib/tradeData';
 import { getInputTradeData } from '@/state/inputsSelectors';
 
 export const useAnalytics = () => {
-  const { walletType, walletConnectionType, evmAddress, dydxAddress, selectedWalletType } = useAccounts();
-  const { compositeClient } = useDydxClient();
+  const { walletType, walletConnectionType, evmAddress, furyaAddress, selectedWalletType } = useAccounts();
+  const { compositeClient } = useFuryaClient();
 
   /** User properties */
 
@@ -74,13 +74,13 @@ export const useAnalytics = () => {
 
   // AnalyticsUserProperty.WalletAddress
   useEffect(() => {
-    identify(AnalyticsUserProperty.WalletAddress, evmAddress || dydxAddress);
-  }, [evmAddress, dydxAddress]);
+    identify(AnalyticsUserProperty.WalletAddress, evmAddress || furyaAddress);
+  }, [evmAddress, furyaAddress]);
 
-  // AnalyticsUserProperty.DydxAddress
+  // AnalyticsUserProperty.FuryaAddress
   useEffect(() => {
-    identify(AnalyticsUserProperty.DydxAddress, dydxAddress);
-  }, [dydxAddress]);
+    identify(AnalyticsUserProperty.FuryaAddress, furyaAddress);
+  }, [furyaAddress]);
 
   // AnalyticsUserProperty.SubaccountNumber
   const subaccountNumber = useSelector(getSubaccountId);

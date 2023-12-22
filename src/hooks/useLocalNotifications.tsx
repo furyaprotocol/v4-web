@@ -27,7 +27,7 @@ const ERROR_COUNT_THRESHOLD = 3;
 const useLocalNotificationsContext = () => {
   // transfer notifications
   const [allTransferNotifications, setAllTransferNotifications] = useLocalStorage<{
-    [key: `dydx${string}`]: TransferNotifcation[];
+    [key: `furya${string}`]: TransferNotifcation[];
     version: string;
   }>({
     key: LocalStorageKey.TransferNotifications,
@@ -48,18 +48,18 @@ const useLocalNotificationsContext = () => {
     }
   }, [allTransferNotifications]);
 
-  const { dydxAddress } = useAccounts();
+  const { furyaAddress } = useAccounts();
 
-  const transferNotifications = dydxAddress ? allTransferNotifications[dydxAddress] || [] : [];
+  const transferNotifications = furyaAddress ? allTransferNotifications[furyaAddress] || [] : [];
 
   const setTransferNotifications = useCallback(
     (notifications: TransferNotifcation[]) => {
-      if (!dydxAddress) return;
+      if (!furyaAddress) return;
       const updatedNotifications = { ...allTransferNotifications };
-      updatedNotifications[dydxAddress] = notifications;
+      updatedNotifications[furyaAddress] = notifications;
       setAllTransferNotifications(updatedNotifications);
     },
-    [setAllTransferNotifications, dydxAddress]
+    [setAllTransferNotifications, furyaAddress]
   );
 
   const addTransferNotification = useCallback(

@@ -14,5 +14,5 @@ export const isDev = CURRENT_MODE === 'DEV';
 export const AVAILABLE_ENVIRONMENTS = environments.deployments[CURRENT_MODE];
 export const CURRENT_ABACUS_DEPLOYMENT = CURRENT_MODE;
 export const ENVIRONMENT_CONFIG_MAP = environments.environments;
-export type DydxNetwork = keyof typeof ENVIRONMENT_CONFIG_MAP;
-export const DEFAULT_APP_ENVIRONMENT = AVAILABLE_ENVIRONMENTS.default as DydxNetwork;
+export type FuryaNetwork = keyof typeof ENVIRONMENT_CONFIG_MAP;
+export const DEFAULT_APP_ENVIRONMENT = AVAILABLE_ENVIRONMENTS.default as FuryaNetwork;

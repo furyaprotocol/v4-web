@@ -17,7 +17,7 @@ import { Link } from '@/components/Link';
 
 import { openDialog } from '@/state/dialogs';
 
-import { DYDXBalancePanel } from './DYDXBalancePanel';
+import { FURYABalancePanel } from './FURYABalancePanel';
 import { MigratePanel } from './MigratePanel';
 import { LaunchIncentivesPanel } from './LaunchIncentivesPanel';
 
@@ -44,12 +44,12 @@ const RewardsPage = () => {
       {isTablet ? (
         <>
           <LaunchIncentivesPanel />
-          <DYDXBalancePanel />
+          <FURYABalancePanel />
         </>
       ) : (
         <Styled.PanelRowIncentivesAndBalance>
           <LaunchIncentivesPanel />
-          <DYDXBalancePanel />
+          <FURYABalancePanel />
         </Styled.PanelRowIncentivesAndBalance>
       )}
 

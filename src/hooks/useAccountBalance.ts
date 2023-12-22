@@ -44,7 +44,7 @@ export const useAccountBalance = ({
   rpc,
   isCosmosChain,
 }: UseAccountBalanceProps = {}) => {
-  const { evmAddress, dydxAddress } = useAccounts();
+  const { evmAddress, furyaAddress } = useAccounts();
 
   const selectedNetwork = useSelector(getSelectedNetwork);
   const balances = useSelector(getBalances, shallowEqual);
@@ -62,9 +62,9 @@ export const useAccountBalance = ({
   });
 
   const cosmosQueryFn = useCallback(async () => {
-    if (dydxAddress && bech32AddrPrefix && rpc && addressOrDenom) {
+    if (furyaAddress && bech32AddrPrefix && rpc && addressOrDenom) {
       const address = convertBech32Address({
-        address: dydxAddress,
+        address: furyaAddress,
         bech32Prefix: bech32AddrPrefix,
       });
 
@@ -77,7 +77,7 @@ export const useAccountBalance = ({
   }, [addressOrDenom, chainId, rpc]);
 
   const cosmosQuery = useQuery({
-    enabled: Boolean(isCosmosChain && dydxAddress && bech32AddrPrefix && rpc && addressOrDenom),
+    enabled: Boolean(isCosmosChain && furyaAddress && bech32AddrPrefix && rpc && addressOrDenom),
     queryKey: `accountBalances_${chainId}_${addressOrDenom}`,
     queryFn: cosmosQueryFn,
     refetchOnWindowFocus: false,

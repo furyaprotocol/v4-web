@@ -1,7 +1,7 @@
 import type { SupportedLocales } from './localization';
-import type { DydxNetwork } from './networks';
+import type { FuryaNetwork } from './networks';
 import type { OnboardingState, OnboardingSteps } from './account';
-import type { DydxAddress, WalletType, WalletConnectionType, EvmAddress } from './wallets';
+import type { FuryaAddress, WalletType, WalletConnectionType, EvmAddress } from './wallets';
 import type { DialogTypes } from './dialogs';
 import type { TradeTypes } from './trade';
 import type { AbacusApiStatus, HumanReadablePlaceOrderPayload } from './abacus';
@@ -21,7 +21,7 @@ export enum AnalyticsUserProperty {
   WalletAddress = 'walletAddress',
 
   // Account
-  DydxAddress = 'dydxAddress',
+  FuryaAddress = 'furyaAddress',
   SubaccountNumber = 'subaccountNumber',
 }
 
@@ -33,17 +33,17 @@ export type AnalyticsUserPropertyValue<T extends AnalyticsUserProperty> =
     ? SupportedLocales
     : // Network
     T extends AnalyticsUserProperty.Network
-    ? DydxNetwork
+    ? FuryaNetwork
     : // Wallet
     T extends AnalyticsUserProperty.WalletType
     ? WalletType | undefined
     : T extends AnalyticsUserProperty.WalletConnectionType
     ? WalletConnectionType | undefined
     : T extends AnalyticsUserProperty.WalletAddress
-    ? EvmAddress | DydxAddress | undefined
+    ? EvmAddress | FuryaAddress | undefined
     : // Account
-    T extends AnalyticsUserProperty.DydxAddress
-    ? DydxAddress | undefined
+    T extends AnalyticsUserProperty.FuryaAddress
+    ? FuryaAddress | undefined
     : T extends AnalyticsUserProperty.SubaccountNumber
     ? number | undefined
     : undefined;

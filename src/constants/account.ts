@@ -1,4 +1,4 @@
-import type { DydxAddress, EvmAddress } from './wallets';
+import type { FuryaAddress, EvmAddress } from './wallets';
 
 export enum OnboardingSteps {
   ChooseWallet = 'ChooseWallet',
@@ -40,7 +40,7 @@ export type EvmDerivedAddresses = {
   version?: string;
   [EvmAddress: EvmAddress]: {
     encryptedSignature?: string;
-    dydxAddress?: DydxAddress;
+    furyaAddress?: FuryaAddress;
   };
 };
 

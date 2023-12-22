@@ -2,7 +2,7 @@ import { ENVIRONMENT_CONFIG_MAP } from '@/constants/networks';
 
 import { useSelectedNetwork } from '@/hooks';
 
-const FALLBACK_URL = 'https://help.dydx.exchange/';
+const FALLBACK_URL = 'https://help.furya.exchange/';
 
 export interface LinksConfigs {
   tos: string,

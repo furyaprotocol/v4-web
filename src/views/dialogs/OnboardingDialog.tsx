@@ -100,7 +100,7 @@ export const OnboardingDialog = ({ setIsOpen }: ElementProps) => {
           },
           [OnboardingSteps.DepositFunds]: {
             title: stringGetter({ key: STRING_KEYS.DEPOSIT }),
-            description: !isMainnet && 'Test funds will be sent directly to your dYdX account.',
+            description: !isMainnet && 'Test funds will be sent directly to your Furya account.',
             children: (
               <Styled.Content>
                 {isMainnet ? (

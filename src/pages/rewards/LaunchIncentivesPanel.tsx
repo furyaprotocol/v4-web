@@ -64,14 +64,14 @@ const LaunchIncentivesTitle = () => {
 
 const EstimatedRewards = () => {
   const stringGetter = useStringGetter();
-  const { dydxAddress } = useAccounts();
+  const { furyaAddress } = useAccounts();
 
   const { data, isLoading } = useQuery({
-    enabled: !!dydxAddress,
-    queryKey: `launch_incentives_rewards_${dydxAddress ?? ''}`,
+    enabled: !!furyaAddress,
+    queryKey: `launch_incentives_rewards_${furyaAddress ?? ''}`,
     queryFn: async () => {
-      if (!dydxAddress) return undefined;
-      const resp = await fetch(`https://cloud.chaoslabs.co/query/api/dydx/points/${dydxAddress}`);
+      if (!furyaAddress) return undefined;
+      const resp = await fetch(`https://cloud.chaoslabs.co/query/api/furya/points/${furyaAddress}`);
       return (await resp.json())?.incentivePoints;
     },
     onError: (error: Error) => log('LaunchIncentives/fetchPoints', error),
@@ -120,7 +120,7 @@ const LaunchIncentivesContent = () => {
             dispatch(
               openDialog({
                 type: DialogTypes.ExternalLink,
-                dialogProps: { link: 'https://dydx.exchange/blog/v4-full-trading' },
+                dialogProps: { link: 'https://furya.exchange/blog/v4-full-trading' },
               })
             );
           }}
@@ -134,7 +134,7 @@ const LaunchIncentivesContent = () => {
             dispatch(
               openDialog({
                 type: DialogTypes.ExternalLink,
-                dialogProps: { link: 'https://community.chaoslabs.xyz/dydx-v4/risk/leaderboard' },
+                dialogProps: { link: 'https://community.chaoslabs.xyz/furya-v4/risk/leaderboard' },
               })
             );
           }}

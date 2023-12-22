@@ -23,7 +23,7 @@ const assetIcons = {
   DAI: '/currencies/dai.png',
   DOGE: '/currencies/doge.png',
   DOT: '/currencies/dot.png',
-  DYDX: '/currencies/dydx.png',
+  FURYA: '/currencies/furya.png',
   ENJ: '/currencies/enj.png',
   EOS: '/currencies/eos.png',
   ETC: '/currencies/etc.png',

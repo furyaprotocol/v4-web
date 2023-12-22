@@ -40,7 +40,7 @@ const Profile = () => {
   const onboardingState = useSelector(getOnboardingState);
   const isConnected = onboardingState !== OnboardingState.Disconnected;
 
-  const { evmAddress, dydxAddress, walletType } = useAccounts();
+  const { evmAddress, furyaAddress, walletType } = useAccounts();
   const { chainTokenLabel } = useTokenConfigs();
 
   const { data: ensName } = useEnsName({
@@ -125,7 +125,7 @@ const Profile = () => {
         <Styled.ProfileIcon />
         <div>
           <Styled.Address>
-            {isConnected ? ensName || truncateAddress(dydxAddress) : '-'}
+            {isConnected ? ensName || truncateAddress(furyaAddress) : '-'}
           </Styled.Address>
           {isConnected && walletType ? (
             <Styled.SubHeader>

@@ -13,7 +13,7 @@ import type {
 } from 'public/tradingview/charting_library';
 
 import { Candle, RESOLUTION_MAP } from '@/constants/candles';
-import { useDydxClient } from '@/hooks';
+import { useFuryaClient } from '@/hooks';
 
 import { RootStore } from '@/state/_store';
 import { setCandles } from '@/state/perpetuals';
@@ -35,9 +35,9 @@ const configurationData: DatafeedConfiguration = {
   supported_resolutions: Object.keys(RESOLUTION_MAP) as ResolutionString[],
   exchanges: [
     {
-      value: 'dYdX', // `exchange` argument for the `searchSymbols` method, if a user selects this exchange
-      name: 'dYdX', // filter name
-      desc: 'dYdX v4 exchange', // full exchange name displayed in the filter popup
+      value: 'Furya', // `exchange` argument for the `searchSymbols` method, if a user selects this exchange
+      name: 'Furya', // filter name
+      desc: 'Furya v4 exchange', // full exchange name displayed in the filter popup
     },
   ],
   symbols_types: [
@@ -48,9 +48,9 @@ const configurationData: DatafeedConfiguration = {
   ],
 };
 
-export const getDydxDatafeed = (
+export const getFuryaDatafeed = (
   store: RootStore,
-  getCandlesForDatafeed: ReturnType<typeof useDydxClient>['getCandlesForDatafeed']
+  getCandlesForDatafeed: ReturnType<typeof useFuryaClient>['getCandlesForDatafeed']
 ) => ({
   onReady: (callback: OnReadyCallback) => {
     setTimeout(() => callback(configurationData));
@@ -89,8 +89,8 @@ export const getDydxDatafeed = (
       description: symbolItem.description,
       type: symbolItem.type,
       full_name: symbolItem.full_name,
-      exchange: 'dYdX',
-      listed_exchange: 'dYdX',
+      exchange: 'Furya',
+      listed_exchange: 'Furya',
       has_intraday: true,
       has_daily: true,
 
@@ -183,7 +183,7 @@ export const getDydxDatafeed = (
         noData: false,
       });
     } catch (error) {
-      log('tradingView/dydxfeed/getBars', error);
+      log('tradingView/furyafeed/getBars', error);
       onErrorCallback(error);
     }
   },

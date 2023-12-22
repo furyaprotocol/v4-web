@@ -25,7 +25,7 @@ export const mapCandle = ({
 export const getAllSymbols = (marketIds: string[]): TradingViewSymbol[] =>
   marketIds.map((marketId) => ({
     description: marketId,
-    exchange: 'dYdX',
+    exchange: 'Furya',
     full_name: marketId,
     symbol: marketId,
     type: 'crypto',

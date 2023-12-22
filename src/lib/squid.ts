@@ -31,7 +31,7 @@ export const fetchSquidStatus = async (
 
   const response = await fetch(url, {
     headers: {
-      "x-integrator-id": integratorId || 'dYdX-api'
+      "x-integrator-id": integratorId || 'Furya-api'
     },
   });
 

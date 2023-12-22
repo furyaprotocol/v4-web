@@ -7,9 +7,9 @@ globalThis.Buffer ??= Buffer;
 
 declare global {
   interface WindowEventMap {
-    'dydx:log': CustomEvent;
-    'dydx:track': CustomEvent;
-    'dydx:identify': CustomEvent;
+    'furya:log': CustomEvent;
+    'furya:track': CustomEvent;
+    'furya:identify': CustomEvent;
 
     'abacus:connectNetwork': CustomEvent;
   }

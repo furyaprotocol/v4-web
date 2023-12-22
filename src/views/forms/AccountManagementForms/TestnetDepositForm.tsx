@@ -24,7 +24,7 @@ type DepositFormProps = {
 
 export const TestnetDepositForm = ({ onDeposit, onError }: DepositFormProps) => {
   const stringGetter = useStringGetter();
-  const { dydxAddress, getSubaccounts } = useAccounts();
+  const { furyaAddress, getSubaccounts } = useAccounts();
   const { requestFaucetFunds } = useSubaccount();
   const subAccount = useSelector(getSubaccount, shallowEqual);
   const selectedNetwork = useSelector(getSelectedNetwork);
@@ -34,9 +34,9 @@ export const TestnetDepositForm = ({ onDeposit, onError }: DepositFormProps) => 
 
   // call getSubaccounts once the subaccount detected via ws from abacus
   useEffect(() => {
-    if (dydxAddress && isLoading && subAccount) {
+    if (furyaAddress && isLoading && subAccount) {
       setIsLoading(false);
-      getSubaccounts({ dydxAddress });
+      getSubaccounts({ furyaAddress });
     }
   }, [subAccount]);
 
@@ -68,7 +68,7 @@ export const TestnetDepositForm = ({ onDeposit, onError }: DepositFormProps) => 
           key: STRING_KEYS.CREDITED_WITH,
           params: {
             AMOUNT_USD:
-              ENVIRONMENT_CONFIG_MAP[selectedNetwork].ethereumChainId === 'dydxprotocol-testnet'
+              ENVIRONMENT_CONFIG_MAP[selectedNetwork].ethereumChainId === 'furyaprotocol-testnet'
                 ? 1000
                 : 100,
           },

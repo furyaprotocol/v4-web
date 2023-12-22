@@ -4,7 +4,7 @@ import styled, { type AnyStyledComponent } from 'styled-components';
 import { ButtonAction, ButtonSize, ButtonType } from '@/constants/buttons';
 import { STRING_KEYS } from '@/constants/localization';
 import { NumberSign } from '@/constants/numbers';
-import { DydxChainAsset } from '@/constants/wallets';
+import { FuryaChainAsset } from '@/constants/wallets';
 
 import { useAccountBalance, useTokenConfigs, useStringGetter } from '@/hooks';
 
@@ -23,7 +23,7 @@ import { isTruthy } from '@/lib/isTruthy';
 import { MustBigNumber } from '@/lib/numbers';
 
 type ElementProps = {
-  selectedAsset: DydxChainAsset;
+  selectedAsset: FuryaChainAsset;
   fee?: number;
   isDisabled?: boolean;
   isLoading?: boolean;
@@ -48,7 +48,7 @@ export const TransferButtonAndReceipt = ({
   const { current: equity, postOrder: newEquity } = equityInfo || {};
   const { current: leverage, postOrder: newLeverage } = leverageInfo || {};
 
-  const isUSDCSelected = selectedAsset === DydxChainAsset.USDC;
+  const isUSDCSelected = selectedAsset === FuryaChainAsset.USDC;
 
   const balance = isUSDCSelected ? equity : nativeTokenBalance;
   const newNativeTokenBalance = nativeTokenBalance

@@ -17,7 +17,7 @@ export const LinkStory: Story<Parameters<typeof Link>> = (args) => {
 };
 
 LinkStory.args = {
-  href: 'https://trade.dydx.exchange',
+  href: 'https://trade.furya.exchange',
 };
 
 const Styled: Record<string, AnyStyledComponent> = {};

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { AbacusApiState } from '@/constants/abacus';
 import { LocalStorageKey } from '@/constants/localStorage';
-import { DEFAULT_APP_ENVIRONMENT, type DydxNetwork } from '@/constants/networks';
+import { DEFAULT_APP_ENVIRONMENT, type FuryaNetwork } from '@/constants/networks';
 
 import { getLocalStorage } from '@/lib/localStorage';
 import { validateAgainstAvailableEnvironments } from '@/lib/network';
@@ -10,7 +10,7 @@ import { validateAgainstAvailableEnvironments } from '@/lib/network';
 export interface AppState {
   apiState: AbacusApiState | undefined;
   pageLoaded: boolean;
-  selectedNetwork: DydxNetwork;
+  selectedNetwork: FuryaNetwork;
 }
 
 const initialState: AppState = {
@@ -36,7 +36,7 @@ export const appSlice = createSlice({
       ...state,
       apiState: action.payload,
     }),
-    setSelectedNetwork: (state: AppState, action: PayloadAction<DydxNetwork>) => ({
+    setSelectedNetwork: (state: AppState, action: PayloadAction<FuryaNetwork>) => ({
       ...state,
       selectedNetwork: action.payload,
     }),

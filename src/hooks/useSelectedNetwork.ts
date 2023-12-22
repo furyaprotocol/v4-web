@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LocalStorageKey } from '@/constants/localStorage';
-import { DEFAULT_APP_ENVIRONMENT, DydxNetwork, ENVIRONMENT_CONFIG_MAP } from '@/constants/networks';
+import { DEFAULT_APP_ENVIRONMENT, FuryaNetwork, ENVIRONMENT_CONFIG_MAP } from '@/constants/networks';
 
 import { useAccounts, useLocalStorage } from '@/hooks';
 
@@ -12,21 +12,21 @@ import { getSelectedNetwork } from '@/state/appSelectors';
 import { validateAgainstAvailableEnvironments } from '@/lib/network';
 
 export const useSelectedNetwork = (): {
-  switchNetwork: (network: DydxNetwork) => void;
-  selectedNetwork: DydxNetwork;
+  switchNetwork: (network: FuryaNetwork) => void;
+  selectedNetwork: FuryaNetwork;
 } => {
   const dispatch = useDispatch();
   const { disconnect } = useAccounts();
   const selectedNetwork = useSelector(getSelectedNetwork);
 
-  const [, setLocalStorageNetwork] = useLocalStorage<DydxNetwork>({
+  const [, setLocalStorageNetwork] = useLocalStorage<FuryaNetwork>({
     key: LocalStorageKey.SelectedNetwork,
     defaultValue: DEFAULT_APP_ENVIRONMENT,
     validateFn: validateAgainstAvailableEnvironments,
   });
 
   const switchNetwork = useCallback(
-    (network: DydxNetwork) => {
+    (network: FuryaNetwork) => {
       disconnect();
 
       setLocalStorageNetwork(network);

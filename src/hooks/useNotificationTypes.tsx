@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { DialogTypes } from '@/constants/dialogs';
 import { ENVIRONMENT_CONFIG_MAP } from '@/constants/networks';
 import { AppRoute } from '@/constants/routes';
-import { DydxChainAsset } from '@/constants/wallets';
+import { FuryaChainAsset } from '@/constants/wallets';
 
 import {
   STRING_KEYS,
@@ -158,7 +158,7 @@ export const notificationTypes: NotificationTypeConfig[] = [
           const icon = <Icon iconName={isFinished ? IconName.Transfer : IconName.Clock} />;
 
           const transferType = type ??
-            fromChainId === ENVIRONMENT_CONFIG_MAP[selectedNetwork].dydxChainId
+            fromChainId === ENVIRONMENT_CONFIG_MAP[selectedNetwork].furyaChainId
               ? TransferNotificationTypes.Withdrawal
               : TransferNotificationTypes.Deposit;
 
@@ -174,7 +174,7 @@ export const notificationTypes: NotificationTypeConfig[] = [
           const body = stringGetter({
             key: STRING_KEYS.DEPOSIT_STATUS,
             params: {
-              AMOUNT_USD: `${toAmount} ${DydxChainAsset.USDC.toUpperCase()}`,
+              AMOUNT_USD: `${toAmount} ${FuryaChainAsset.USDC.toUpperCase()}`,
               ESTIMATED_DURATION: estimatedDuration,
             },
           });
@@ -216,14 +216,14 @@ export const notificationTypes: NotificationTypeConfig[] = [
         trigger(
           'rewards-and-full-trading-live',
           {
-            icon: <AssetIcon symbol="DYDX" />,
+            icon: <AssetIcon symbol="FURYA" />,
             title: stringGetter({ key: 'NOTIFICATIONS.RELEASE_REWARDS_AND_FULL_TRADING.TITLE' }),
             body: stringGetter({
               key: 'NOTIFICATIONS.RELEASE_REWARDS_AND_FULL_TRADING.BODY',
               params: {
                 DOS_BLOGPOST: (
                   <$Link
-                    href="https://www.dydxopsdao.com/blog/deep-dive-full-trading"
+                    href="https://www.furyaopsdao.com/blog/deep-dive-full-trading"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -232,7 +232,7 @@ export const notificationTypes: NotificationTypeConfig[] = [
                 ),
                 TRADING_BLOGPOST: (
                   <$Link
-                    href="https://dydx.exchange/blog/v4-full-trading"
+                    href="https://furya.exchange/blog/v4-full-trading"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

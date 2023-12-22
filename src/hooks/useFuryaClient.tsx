@@ -16,7 +16,7 @@ import type { ResolutionString } from 'public/tradingview/charting_library';
 import type { ConnectNetworkEvent, NetworkConfig } from '@/constants/abacus';
 import { type Candle, RESOLUTION_MAP } from '@/constants/candles';
 import { ENVIRONMENT_CONFIG_MAP } from '@/constants/networks';
-import { DydxChainAsset } from '@/constants/wallets';
+import { FuryaChainAsset } from '@/constants/wallets';
 
 import { getSelectedNetwork } from '@/state/appSelectors';
 
@@ -24,17 +24,17 @@ import { log } from '@/lib/telemetry';
 
 import { useRestrictions } from './useRestrictions';
 
-type DydxContextType = ReturnType<typeof useDydxClientContext>;
-const DydxContext = createContext<DydxContextType>({} as DydxContextType);
-DydxContext.displayName = 'dYdXClient';
+type FuryaContextType = ReturnType<typeof useFuryaClientContext>;
+const FuryaContext = createContext<FuryaContextType>({} as FuryaContextType);
+FuryaContext.displayName = 'FuryaClient';
 
-export const DydxProvider = ({ ...props }) => (
-  <DydxContext.Provider value={useDydxClientContext()} {...props} />
+export const FuryaProvider = ({ ...props }) => (
+  <FuryaContext.Provider value={useFuryaClientContext()} {...props} />
 );
 
-export const useDydxClient = () => useContext(DydxContext);
+export const useFuryaClient = () => useContext(FuryaContext);
 
-const useDydxClientContext = () => {
+const useFuryaClientContext = () => {
   // ------ Network ------ //
 
   const selectedNetwork = useSelector(getSelectedNetwork);
@@ -70,11 +70,11 @@ const useDydxClientContext = () => {
               new IndexerConfig(networkConfig.indexerUrl, networkConfig.websocketUrl),
               new ValidatorConfig(networkConfig.validatorUrl, networkConfig.chainId,
                 {
-                  USDC_DENOM: tokensConfigs[DydxChainAsset.USDC].denom,
-                  USDC_DECIMALS: tokensConfigs[DydxChainAsset.USDC].decimals,
-                  USDC_GAS_DENOM: tokensConfigs[DydxChainAsset.USDC].gasDenom,
-                  CHAINTOKEN_DENOM: tokensConfigs[DydxChainAsset.CHAINTOKEN].denom,
-                  CHAINTOKEN_DECIMALS: tokensConfigs[DydxChainAsset.CHAINTOKEN].decimals,
+                  USDC_DENOM: tokensConfigs[FuryaChainAsset.USDC].denom,
+                  USDC_DECIMALS: tokensConfigs[FuryaChainAsset.USDC].decimals,
+                  USDC_GAS_DENOM: tokensConfigs[FuryaChainAsset.USDC].gasDenom,
+                  CHAINTOKEN_DENOM: tokensConfigs[FuryaChainAsset.CHAINTOKEN].denom,
+                  CHAINTOKEN_DECIMALS: tokensConfigs[FuryaChainAsset.CHAINTOKEN].decimals,
                 }, {
                 broadcastPollIntervalMs: 3_000,
                 broadcastTimeoutMs: 60_000,
@@ -83,7 +83,7 @@ const useDydxClientContext = () => {
           );
           setCompositeClient(initializedClient);
         } catch (error) {
-          log('useDydxClient/initializeCompositeClient', error);
+          log('useFuryaClient/initializeCompositeClient', error);
         }
       } else {
         setCompositeClient(undefined);
@@ -135,7 +135,7 @@ const useDydxClientContext = () => {
           )) || {};
         return candles || [];
       } catch (error) {
-        log('useDydxClient/getPerpetualMarketCandles', error);
+        log('useFuryaClient/getPerpetualMarketCandles', error);
         return [];
       }
     },

@@ -40,7 +40,7 @@ export const calculateCanAccountTrade = createSelector(
 
 /**
  * @description calculate whether the client has enough information to display account info.
- * User does not have to have AccountConnected. The dYdX account can be viewed if the client knows the dYdX address.
+ * User does not have to have AccountConnected. The Furya account can be viewed if the client knows the Furya address.
  */
 export const calculateCanViewAccount = createSelector(
   [getOnboardingState, getSubaccountId],

@@ -26,7 +26,7 @@ import {
 } from '@/constants/abacus';
 
 import { DEFAULT_MARKETID } from '@/constants/markets';
-import { CURRENT_ABACUS_DEPLOYMENT, type DydxNetwork, isMainnet } from '@/constants/networks';
+import { CURRENT_ABACUS_DEPLOYMENT, type FuryaNetwork, isMainnet } from '@/constants/networks';
 import { CLEARED_SIZE_INPUTS, CLEARED_TRADE_INPUTS } from '@/constants/trade';
 
 import type { RootStore } from '@/state/_store';
@@ -38,7 +38,7 @@ import { testFlags } from '@/lib/testFlags';
 import AbacusRest from './rest';
 import AbacusAnalytics from './analytics';
 import AbacusWebsocket from './websocket';
-import AbacusChainTransaction from './dydxChainTransactions';
+import AbacusChainTransaction from './furyaChainTransactions';
 import AbacusStateNotifier from './stateNotification';
 import AbacusLocalizer from './localizer';
 import AbacusFormatter from './formatter';
@@ -98,7 +98,7 @@ class AbacusStateManager {
     );
   }
 
-  start = ({ network }: { network?: DydxNetwork } = {}) => {
+  start = ({ network }: { network?: FuryaNetwork } = {}) => {
     if (network) {
       this.stateManager.environmentId = network;
     }
@@ -219,7 +219,7 @@ class AbacusStateManager {
     this.stateManager.historicalPnlPeriod = period;
   };
 
-  switchNetwork = (network: DydxNetwork) => {
+  switchNetwork = (network: FuryaNetwork) => {
     this.stateManager.environmentId = network;
 
     if (this.currentMarket) {

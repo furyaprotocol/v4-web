@@ -34,7 +34,7 @@ export const TransferStatusSteps = ({ className, status, type }: ElementProps & 
   const stringGetter = useStringGetter();
   const { selectedNetwork } = useSelectedNetwork();
   const { mintscan: mintscanTxUrl } = useURLConfigs();
-  const dydxChainId = ENVIRONMENT_CONFIG_MAP[selectedNetwork].dydxChainId;
+  const furyaChainId = ENVIRONMENT_CONFIG_MAP[selectedNetwork].furyaChainId;
 
   const { currentStep, steps } = useMemo(() => {
     const routeStatus = status?.routeStatus;
@@ -55,7 +55,7 @@ export const TransferStatusSteps = ({ className, status, type }: ElementProps & 
         link:
           type === TransferNotificationTypes.Deposit
             ? status?.fromChain?.transactionUrl
-            : routeStatus?.[0]?.chainId === dydxChainId && routeStatus[0].txHash
+            : routeStatus?.[0]?.chainId === furyaChainId && routeStatus[0].txHash
             ? `${mintscanTxUrl?.replace('{tx_hash}', routeStatus[0].txHash.replace('0x', ''))}`
             : undefined,
       },
@@ -73,7 +73,7 @@ export const TransferStatusSteps = ({ className, status, type }: ElementProps & 
           params: {
             CHAIN:
               type === TransferNotificationTypes.Deposit
-                ? 'dYdX'
+                ? 'Furya'
                 : status?.toChain?.chainData?.chainName,
           },
         }),
@@ -81,7 +81,7 @@ export const TransferStatusSteps = ({ className, status, type }: ElementProps & 
         link:
           type === TransferNotificationTypes.Withdrawal
             ? status?.toChain?.transactionUrl
-            : currentStatus?.chainId === dydxChainId && currentStatus?.txHash
+            : currentStatus?.chainId === furyaChainId && currentStatus?.txHash
             ? `${mintscanTxUrl?.replace('{tx_hash}', currentStatus.txHash.replace('0x', ''))}`
             : undefined,
       },

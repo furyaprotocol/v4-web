@@ -20,7 +20,7 @@ import {
 } from '@dydxprotocol/v4-client-js';
 
 import {
-  type AbacusDYDXChainTransactionsProtocol,
+  type AbacusFURYAChainTransactionsProtocol,
   QueryType,
   type QueryTypes,
   TransactionType,
@@ -33,7 +33,7 @@ import {
 
 import { DialogTypes } from '@/constants/dialogs';
 import { UNCOMMITTED_ORDER_TIMEOUT_MS } from '@/constants/trade';
-import { ENVIRONMENT_CONFIG_MAP, DydxNetwork, isTestnet } from '@/constants/networks';
+import { ENVIRONMENT_CONFIG_MAP, FuryaNetwork, isTestnet } from '@/constants/networks';
 
 import { RootStore } from '@/state/_store';
 import { addUncommittedOrderClientId, removeUncommittedOrderClientId } from '@/state/account';
@@ -44,7 +44,7 @@ import { bytesToBigInt } from '../numbers';
 import { log } from '../telemetry';
 import { hashFromTx } from '../hashfromTx';
 
-class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
+class FuryaChainTransactions implements AbacusFURYAChainTransactionsProtocol {
   private compositeClient: CompositeClient | undefined;
   private nobleClient: NobleClient | undefined;
   private store: RootStore | undefined;
@@ -71,7 +71,7 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
         this.nobleClient.connect(nobleWallet);
       }
     } catch (e) {
-      log('DydxChainTransactions/setNobleWallet', e);
+      log('FuryaChainTransactions/setNobleWallet', e);
     }
   }
 
@@ -124,7 +124,7 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
           if (this.nobleWallet) await this.nobleClient.connect(this.nobleWallet);
         }
       } catch (e) {
-        log('DydxChainTransactions/connectNetwork/NobleClient', e);
+        log('FuryaChainTransactions/connectNetwork/NobleClient', e);
       }
 
       // Dispatch custom event to notify other parts of the app that the network has been connected
@@ -138,7 +138,7 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
       this.store?.dispatch(
         openDialog({ type: DialogTypes.ExchangeOffline, dialogProps: { preventClose: true } })
       );
-      log('DydxChainTransactions/connectNetwork', error);
+      log('FuryaChainTransactions/connectNetwork', error);
     }
   }
 
@@ -229,7 +229,7 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
       if (isTestnet) {
         console.log(
           `${ENVIRONMENT_CONFIG_MAP[
-            this.compositeClient.network.getString() as DydxNetwork
+            this.compositeClient.network.getString() as FuryaNetwork
           ]?.links?.mintscan?.replace('{tx_hash}', hash.toString())}`
         );
       } else console.log(`txHash: ${hash}`);
@@ -237,7 +237,7 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
       return encodedTx;
     } catch (error) {
       if (error?.name !== 'BroadcastError') {
-        log('DydxChainTransactions/placeOrderTransaction', error);
+        log('FuryaChainTransactions/placeOrderTransaction', error);
       }
 
       return JSON.stringify({
@@ -273,7 +273,7 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
 
       return encodedTx;
     } catch (error) {
-      log('DydxChainTransactions/cancelOrderTransaction', error);
+      log('FuryaChainTransactions/cancelOrderTransaction', error);
 
       return JSON.stringify({
         error,
@@ -305,7 +305,7 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
 
       return JSON.stringify(parsedTx);
     } catch (error) {
-      log('DydxChainTransactions/simulateWithdrawTransaction', error);
+      log('FuryaChainTransactions/simulateWithdrawTransaction', error);
 
       return JSON.stringify({
         error,
@@ -336,14 +336,14 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
 
             resolve([msg]);
           }),
-        this.compositeClient?.validatorClient?.post.defaultDydxGasPrice
+        this.compositeClient?.validatorClient?.post.defaultFuryaGasPrice
       );
 
       const parsedTx = this.parseToPrimitives(tx);
 
       return JSON.stringify(parsedTx);
     } catch (error) {
-      log('DydxChainTransactions/simulateTransferNativeTokenTransaction', error);
+      log('FuryaChainTransactions/simulateTransferNativeTokenTransaction', error);
 
       return JSON.stringify({
         error,
@@ -383,7 +383,7 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
 
       return JSON.stringify(parsedTx);
     } catch (error) {
-      log('DydxChainTransactions/sendNobleIBC', error);
+      log('FuryaChainTransactions/sendNobleIBC', error);
 
       return JSON.stringify({
         error,
@@ -428,7 +428,7 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
         txHash: hashFromTx(tx?.hash)
       });
     } catch (error) {
-      log('DydxChainTransactions/withdrawToNobleIBC', error);
+      log('FuryaChainTransactions/withdrawToNobleIBC', error);
 
       return JSON.stringify({
         error,
@@ -467,7 +467,7 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
 
       return JSON.stringify(parsedTx);
     } catch (error) {
-      log('DydxChainTransactions/cctpWithdraw', error);
+      log('FuryaChainTransactions/cctpWithdraw', error);
 
       return JSON.stringify({
         error,
@@ -529,10 +529,10 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
         const serializedError = JSON.stringify(error);
         callback(serializedError);
       } catch (parseError) {
-        log('DydxChainTransactions/transaction', parseError);
+        log('FuryaChainTransactions/transaction', parseError);
       }
 
-      log('DydxChainTransactions/transaction', error);
+      log('FuryaChainTransactions/transaction', error);
     }
   }
 
@@ -618,10 +618,10 @@ class DydxChainTransactions implements AbacusDYDXChainTransactionsProtocol {
           break;
       }
     } catch (error) {
-      log('DydxChainTransactions/get', error);
+      log('FuryaChainTransactions/get', error);
       callback(null);
     }
   }
 }
 
-export default DydxChainTransactions;
+export default FuryaChainTransactions;
